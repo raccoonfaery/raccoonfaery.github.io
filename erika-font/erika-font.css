@@ -1,1 +1,28 @@
+@font-face {
+    font-family: 'Erica Type';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Erica Type'), url('Erika Type.woff') format('woff');
+}
+@font-face {
+    font-family: 'Erica Type Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Erica Type Italic'), url('Erika Type_I.woff') format('woff');
+}
+@font-face {
+    font-family: 'Erica Type Bold Italic';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Erica Type Bold Italic'), url('Erika Type_BI.woff') format('woff');
+}
+@font-face {
+    font-family: 'Erica Type Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Erica Type Bold'), url('Erika Type_B.woff') format('woff');
+}
 
+body {
+    font-family: Erika Type;
+}
