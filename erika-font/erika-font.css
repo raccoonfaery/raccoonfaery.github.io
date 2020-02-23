@@ -22,7 +22,3 @@
     font-weight: normal;
     src: local('Erica Type Bold'), url('Erika Type_B.woff') format('woff');
 }
-
-body {
-    font-family: Erica Type;
-}
