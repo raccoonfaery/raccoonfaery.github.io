@@ -1,1 +1,6 @@
-
+@font-face {
+font-family: 'Chick-Fool-A';
+font-style: normal;
+font-weight: normal;
+src: local('Chick-Fool-A'), url('chick-fool-a.woff') format('woff');
+}
