@@ -1,3 +1,8 @@
-.sitemap {
+footer {
+  padding: 20px;
+  background: #000000;
+}
+.columns {
+  vertical-align: top;
   display: inline-block;
 }
