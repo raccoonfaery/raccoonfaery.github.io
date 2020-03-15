@@ -4,6 +4,18 @@ footer {
   color: #FF0081
 }
 
+a:link {
+  color: #FF009A;
+}
+
+a:visited {
+  color: #9C0250;
+}
+
+a:hover {
+  color: #FF008D;
+}
+
 .columns {
   vertical-align: top;
   display: inline-block;
