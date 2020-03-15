@@ -1,7 +1,7 @@
-@import "fonts/erika-font/erika-font.css";
+@import "/font/erika-font/erika-font.css";
 
 body {
-  font-family: Erika Font;
+  font-family: Erika Type;
   color: #FF8CC6;
   background: #C30062;
 }
