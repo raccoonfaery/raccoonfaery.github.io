@@ -5,6 +5,10 @@ footer {
   color: #FF0081;
 }
 
+hr {
+  width: 75%;
+}
+
 a:link {
   color: #FF009A;
 }
