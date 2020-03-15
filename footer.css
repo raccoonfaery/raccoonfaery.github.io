@@ -8,7 +8,9 @@ footer {
 
 hr {
   width: 75%;
-  border-color: #FF0081;
+  color: #FF0081;
+  background-color: #FF0081;
+  border: none;
 }
 
 a:link {
