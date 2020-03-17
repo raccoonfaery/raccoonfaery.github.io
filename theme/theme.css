@@ -16,11 +16,16 @@ body {
 }
 
 div.padlr100 {
-  padding-left: 100px;
-  padding-right: 100px;
+  padding-left: 75px;
+  padding-right: 75px;
+  display: block;
 }
 
 div.col {
   vertical-align: top;
   display: inline-block;
+}
+
+h1 {
+  text-align: center;
 }
