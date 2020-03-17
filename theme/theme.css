@@ -14,3 +14,7 @@ body {
   color: #FF8CC6;
   background: #C3004F;
 }
+
+p {
+  padding : 50px;
+}
