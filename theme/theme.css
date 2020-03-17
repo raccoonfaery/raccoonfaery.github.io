@@ -14,3 +14,13 @@ body {
   color: #FF8CC6;
   background: #C3004F;
 }
+
+div .padlr100 {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+div .col {
+  vertical-align: top;
+  display: inline-block;
+}
