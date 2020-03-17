@@ -1,0 +1,9 @@
+.padlr100 {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.col {
+  vertical-align: top;
+  display: inline-block;
+}
