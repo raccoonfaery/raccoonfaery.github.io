@@ -15,12 +15,12 @@ body {
   background: #C3004F;
 }
 
-div .padlr100 {
+div.padlr100 {
   padding-left: 100px;
   padding-right: 100px;
 }
 
-div .col {
+div.col {
   vertical-align: top;
   display: inline-block;
 }

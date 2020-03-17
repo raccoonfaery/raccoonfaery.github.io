@@ -24,7 +24,7 @@ a:hover {
   color: #FF008D;
 }
 
-ul .columns {
+ul.columns {
   vertical-align: top;
   display: inline-block;
   list-style-type: none;
