@@ -29,4 +29,6 @@ ul.columns {
   display: inline-block;
   width: 150px;
   list-style-type: none;
+  margin: 0;
+  padding-left:0;
 }
