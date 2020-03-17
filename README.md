@@ -1,3 +1,7 @@
 # BerryLe.github.io
 
-Just some website with things.
+Just a random website.
+
+Check out my website: [](https://BerryLe.github.io)
+
+:sparkling_heart:
