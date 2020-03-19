@@ -18,10 +18,11 @@ body {
 div.paragraphs {
   padding-left: 75px;
   padding-right: 75px;
+  text-align: justify;
 }
 
 p {
-  text-indent: 32px;
+  text-indent: 2em;
 }
 
 div.col {
