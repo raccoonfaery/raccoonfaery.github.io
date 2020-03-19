@@ -15,9 +15,10 @@ body {
   background: #C3004F;
 }
 
-div.padlr75 {
+div.paragraphs {
   padding-left: 75px;
   padding-right: 75px;
+  text-indent: 32px;
 }
 
 div.col {
