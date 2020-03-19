@@ -67,6 +67,5 @@ ul.columns {
 ul.episodes{
   list-style-type: none;
   margin: 0;
-  padding-left: 75px;
-  padding-right: 75px;
+  padding: 25px 75px;
 }
