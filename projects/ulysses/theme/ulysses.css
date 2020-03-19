@@ -20,6 +20,10 @@ div.paragraphs {
   padding-right: 75px;
 }
 
+p {
+  text-indent: 32px;
+}
+
 div.col {
   vertical-align: top;
   display: inline-block;
