@@ -15,24 +15,11 @@ body {
   background: #C3004F;
 }
 
-div.paragraphs {
-  padding-left: 100px;
-  padding-right: 100px;
-  text-align: justify;
-}
-
-p {
-  text-indent: 2em;
-}
-
 div.col {
   vertical-align: top;
   display: inline-block;
 }
 
-h1 {
-  text-align: center;
-}
 
 footer {
   padding: 25px 100px;
