@@ -1,5 +1,5 @@
-h4 {font-size: 120%;
-  text-align: center;
+h4 {
+  font-size: 120%;
 }
 
 div.paragraphs {
@@ -8,40 +8,56 @@ div.paragraphs {
   text-align: justify;
 }
 
-p {text-indent: 2em;
+p {
+  text-indent: 2em;
 }
 
-.p2 {padding-top: 2em;}
+.p2 {
+  padding-top: 2em;
+}
 
-p.poem {text-indent: 0%;
-    padding-left: 10%;
-    font-size: 90%;
-    padding-top: 2em;
-    padding-bottom: 2em;}
+p.poem {
+  text-indent: 0%;
+  padding-left: 10%;
+  font-size: 90%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
 
-p.letter {text-indent: 0%;
-      padding-left: 10%;
-      padding-right: 10%;
-      padding-top: 2em;
-      padding-bottom: 2em;}
+p.letter {
+  text-indent: 0%;
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
 
-p.noindent {text-indent: 0%;}
+p.noindent {
+  text-indent: 0%;
+}
 
-p.center  {text-align: center;
-       text-indent: 0em;
-       padding-top: 2em;
-       padding-bottom: 2em;}
+p.center  {
+  text-align: center;
+  text-indent: 0em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
 
-p.right {text-align: right;
-     padding-right: 10%;
-     padding-top: 2em;
-     padding-bottom: 2em;}
+p.right {
+  text-align: right;
+  padding-right: 10%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
 
-p.asterism {text-align: center;
-       font-size: 150%;
-       padding-top: 2em;
-       padding-bottom: 2em;}
+p.asterism {
+  text-align: center;
+  font-size: 150%;
+  padding-top: 2em;
+  padding-bottom: 2em;
+}
 
-div.fig {display: block;
-     text-align: center;
+div.fig {
+  display: block;
+  text-align: center;
 }
