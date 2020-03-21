@@ -22,6 +22,8 @@ h1, h2, h3, h4 {
 img {
   margin: 0;
   padding: 0;
+  border: 0;
+  border-style: none;
 }
 
 div.padlr100 {
