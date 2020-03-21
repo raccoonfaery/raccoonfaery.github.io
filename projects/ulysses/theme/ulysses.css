@@ -15,6 +15,10 @@ body {
   background: #C3004F;
 }
 
+h1, h2, h3, h4 {
+  text-align: center;
+}
+
 div.col {
   vertical-align: top;
   display: inline-block;
