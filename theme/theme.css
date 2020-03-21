@@ -15,6 +15,10 @@ body {
   background: #C3004F;
 }
 
+h1, h2, h3, h4 {
+  text-align: center;
+}
+
 div.padlr100 {
   padding-left: 100px;
   padding-right: 100px;
@@ -23,8 +27,4 @@ div.padlr100 {
 div.col {
   vertical-align: top;
   display: inline-block;
-}
-
-h1 {
-  text-align: center;
 }
