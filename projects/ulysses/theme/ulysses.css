@@ -24,6 +24,10 @@ div.col {
   display: inline-block;
 }
 
+div.onehundo {
+  padding: 0 100px;
+}
+
 
 footer {
   padding: 25px 100px;
