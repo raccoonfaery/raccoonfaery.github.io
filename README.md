@@ -2,6 +2,6 @@
 
 Just a random website.
 
-Check out my website: [BerryLe.github.io](https://BerryLe.github.io)
+Check out my website: [raccoonfaery.github.io](https://raccoonfaery.github.io)
 
 :sparkling_heart:
