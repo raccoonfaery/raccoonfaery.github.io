@@ -1,1 +1,0 @@
-# *Ulysses* by James Joyce
