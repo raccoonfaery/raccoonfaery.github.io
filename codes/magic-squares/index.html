@@ -1,0 +1,102 @@
+---
+layout: default
+title: Magic Squares
+---
+
+<h1>magic-squares.py</h1>
+
+<h2>permutation of magic squares solutions</h2>
+
+<pre>
+# Global variables
+solutions = []
+n = int(input('Enter number of magic squares (2 - 20): '))
+while n < 2 or n > 20:
+	n = int(input('Enter number of magic squares (2 - 20): '))
+
+# permutes squares
+def permute_square(a, lo, hi, b):
+	if len(solutions) == n:
+		'merp' # stop when enough soltuions
+	# if is magic square append to solutions
+	elif lo == hi:
+		if is_valid_square(b):
+			solutions.append(b)
+	elif is_valid_square(b):
+		solutions.append(b)
+	else:
+		for i in range(lo, hi):
+			a[i], a[lo] = a[lo], a[i]
+			# the checks
+			if lo == 3 and sum(a[:4]) != 34:
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 7 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34):
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 8 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or (a[0] + a[4] + a[8]) >= 34):
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 9 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or (a[0] + a[4] + a[8]) >= 34 or\
+				(a[1] + a[5] + a[9]) >= 34):
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 10 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or (a[0] + a[4] + a[8]) >= 34 or\
+				(a[1] + a[5] + a[9]) >= 34 or (a[0] + a[5] + a[10]) >= 34):
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 11 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or sum(a[8:12]) != 34 or (a[0] + a[4] + a[8]) >= 34 or\
+				(a[1] + a[5] + a[9]) >= 34 or (a[2] + a[6] + a[10]) >= 34 or (a[3] + a[7] + a[11]) >= 34) or\
+				(a[0] + a[5] + a[10]) >= 34 or (a[3] + a[6] + a[9]) >= 34:
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 12 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or sum(a[8:12]) != 34 or (a[0] + a[4] + a[8] + a[12]) != 34 or\
+				(a[1] + a[5] + a[9]) >= 34 or (a[2] + a[6] + a[10]) >= 34 or (a[3] + a[7] + a[11]) >= 34) or\
+				(a[0] + a[5] + a[10]) >= 34 or (a[3] + a[6] + a[9] + a[12]) != 34:
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 13 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or sum(a[8:12]) != 34 or (a[0] + a[4] + a[8] + a[12]) != 34 or\
+				(a[1] + a[5] + a[9] + a[13]) != 34 or (a[2] + a[6] + a[10]) >= 34 or (a[3] + a[7] + a[11]) >= 34) or\
+				(a[0] + a[5] + a[10]) >= 34 or (a[3] + a[6] + a[9] + a[12]) != 34:
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 14 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or sum(a[8:12]) != 34 or (a[0] + a[4] + a[8] + a[12]) != 34 or\
+				(a[1] + a[5] + a[9] + a[13]) != 34 or (a[2] + a[6] + a[10] + a[14]) != 34 or (a[3] + a[7] + a[11]) >= 34) or\
+				(a[0] + a[5] + a[10]) >= 34 or (a[3] + a[6] + a[9] + a[12]) != 34:
+				a[i], a[lo] = a[lo], a[i]
+			elif lo == 15 and (sum(a[:4]) != 34 or sum(a[4:8]) != 34 or sum(a[8:12]) != 34 or (a[0] + a[4] + a[8] + a[12]) != 34 or\
+				(a[1] + a[5] + a[9] + a[13]) != 34 or (a[2] + a[6] + a[10] + a[14]) != 34 or (a[3] + a[7] + a[11] + a[15]) != 34) or\
+				(a[0] + a[5] + a[10] + a[15]) != 34 or (a[3] + a[6] + a[9] + a[12]) != 34:
+				a[i], a[lo] = a[lo], a[i]
+			else:
+				b = [a[:4], a[4:8], a[8:12], a[12:16]]
+				permute_square(a, lo + 1, hi, b)
+				a[i], a[lo] = a[lo], a[i]
+				b = [a[:4], a[4:8], a[8:12], a[12:16]]
+
+# tests whether a square is a magic square or not
+def is_valid_square(a):
+
+	b = []
+	for i in range(4):
+		col = []
+		for j in range(4):
+			col.append(a[j][i])
+		b.append(col)
+	if sum(a[0]) == 34 and sum(a[1]) == 34 and sum(a[2]) == 34 and sum(a[3]) == 34:
+		if (a[0][0] + a[1][1] + a[2][2] + a[3][3]) == 34:
+			if (a[0][3] + a[1][2] + a[2][1] + a[3][0]) == 34:
+				if sum(b[0]) == 34 and sum(b[1]) == 34 and sum(b[2]) == 34 and sum(b[3]) == 34:
+					return True
+	return False
+
+def main():
+
+	a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+	b = [[0 for y in range(4)]
+		for x in range(4)]
+	permute_square(a, 0, 16, b)
+
+	# prints the magic squares
+	for square in range(n):
+		for i in range(4):
+			row = ''
+			for j in range(4):
+				row += format(solutions[square][j][i], "3d") + ' '
+			print(row)
+		print()
+
+main()
+</pre>
