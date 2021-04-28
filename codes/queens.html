@@ -1,0 +1,77 @@
+---
+layout: default
+title: Queens
+---
+
+<h1>queens.py</h1>
+
+<h2>queens on a board of size n</h2>
+
+<p>permutation; find positions of queens in such a way that no queen can capture another on a board of size n</p>
+
+<pre>
+class Queens():
+
+	num_solutions = 0
+
+	# initialize board
+	def __init__(self, n = 8):
+		self.board = []
+		self.n = n
+		for i in range(self.n):
+			row = []
+			for j in range(self.n):
+				row.append('*')
+			self.board.append(row)
+		self.solutions = []
+
+	# check if no queen captures another
+	def is_valid(self, row, col):
+		for i in range(self.n):
+			if self.board[row][i] == 'Q' or self.board[i][col] == 'Q':
+				return False
+		for i in range(self.n):
+			for j in range(self.n):
+				row_diff = abs(row - i)
+				col_diff = abs(col - j)
+				if row_diff == col_diff and self.board[i][j] == 'Q':
+					return False
+		return True
+
+	# do a recursive backtracking solution
+	def recursive_solve(self, col):
+		if col == self.n:
+			Queens.num_solutions += 1
+		else:
+			for i in range(self.n):
+				if self.is_valid(i, col):
+					self.board[i][col] = 'Q'
+					self.recursive_solve(col + 1)
+					self.board[i][col] = '*'
+
+	# initiates recursive_solve
+	def solve(self):
+		self.recursive_solve(0)
+		return Queens.num_solutions
+
+# MAIN PROGRAM
+def main():
+
+	# ask for dimensions of chessboard
+	dimensions = int(input('Enter the size of the board: '))
+	while dimensions < 1 or dimensions> 16:
+		dimensions = int(input('Enter the size of the board: '))
+
+	print()
+
+	# create a chessboard
+	a_solution = Queens(dimensions)
+
+	# place queens on board
+	num_solu = a_solution.solve()
+
+	# print out total number of solutions
+	print('Number of solutions:', num_solu)
+
+main()
+</pre>
