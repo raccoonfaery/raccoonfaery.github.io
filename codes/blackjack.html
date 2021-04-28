@@ -1,0 +1,245 @@
+---
+layout: default
+title: Blackjack
+---
+
+<h1>blackjack.py</h1>
+
+<h2>simulation of a blackjack card game</h2>
+
+<pre><code class = "language-plaintext highlighter-rouge">
+import random
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CREATES A CARD~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+class Card(object):
+
+    RANKS = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)
+    SUITS = ('C', 'D', 'H', 'S')
+
+    def __init__(self, rank = 12, suit = 'S'):
+        if rank in Card.RANKS:
+            self.rank = rank
+        else:
+            self.rank = 12
+
+        if suit in Card.SUITS:
+            self.suit = suit
+        else:
+            self.suit = 'S'
+
+    # string representation of Card object
+    def __str__(self):
+        if self.rank == 1:
+            rank = 'A'
+        elif self.rank == 13:
+            rank = 'K'
+        elif self.rank == 12:
+            rank = 'Q'
+        elif self.rank == 11:
+            rank = 'J'
+        else:
+            rank = str(self.rank)
+        return rank + self.suit
+
+    # equality tests
+
+    # equal to
+    def __eq__(self, other):
+        return self.rank == other.rank
+
+    # not equal to
+    def __ne__(self, other):
+        return self.rank != other.rank
+
+    # less than
+    def __lt__(self, other):
+        return self.rank < other.rank
+
+    # less than or equal to
+    def __le__(self, other):
+        return self.rank <= other.rank
+
+    # greater than
+    def __gt__(self, other):
+        return self.rank > other.rank
+
+    # greater than or equal to
+    def __ge__(self, other):
+        return self.rank >= other.rank
+
+"~~~~~~~~~~~~~~~~~~~~~CREATES A DECK W/ 52 CARD OBJECTS~~~~~~~~~~~~~~~~~~~~~~~~"
+class Deck(object):
+
+    def __init__(self, num_decks = 1):
+        self.deck = []
+
+        # creates 52 card objects to add to deck
+        for deck in range(num_decks):
+            for suit in Card.SUITS:
+                for rank in Card.RANKS:
+                    card = Card(rank,suit)
+                    self.deck.append(card)
+
+    # shuffle deck
+    def shuffle(self):
+        random.shuffle(self.deck)
+
+    # deal a card
+    def deal(self):
+        if len(self.deck) == 0:
+            return None
+        else:
+            return self.deck.pop(0)
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CREATES A PLAYER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+class Player(object):
+
+    def __init__(self, cards):
+        #cards is a list of Card objects
+        self.hand = cards
+
+    # when Player hits, append a card to hand
+    def hit(self, card):
+        self.hand.append(card)
+
+    # count points in Player's hand
+    def get_points(self):
+        count = 0
+        for card in self.hand:
+            if card.rank > 9:
+                count += 10
+            elif card.rank == 1:
+                count += 11
+            else:
+                count += card.rank
+
+        # deduct 10 pts and there is an Ace and needed as 1
+        for card in self.hand:
+            if count <= 21:
+                break
+            elif card.rank == 1:
+                count -= 10
+
+        return count
+
+    # does Player have Blackjack
+    def has_blackjack(self):
+        return len(self.hand) == 2 and self.get_points() == 21
+
+    # string representation of Player's hand and points
+    def __str__(self):
+        hand = ''
+        for i in range(len(self.hand)):
+            hand += str(self.hand[i]) + ' '
+        return str(hand) + ' - ' + str(self.get_points()) + ' points'
+
+"~~~~~~~~~~~~~~~~CREATES A DEALER THAT INHERITS FROM PLAYER~~~~~~~~~~~~~~~~~~~~"
+class Dealer(Player):
+
+    def __init__(self, cards):
+        Player.__init__(self, cards)
+        self.show_one_card = True
+
+    # polymorphism: over write hit() method
+    def hit(self, deck):
+        self.show_one_card = False
+        while self.get_points() < 17:
+            self.hand.append(deck.deal())
+
+    # return string showing one card if not hit yet
+    def __str__(self):
+        if self.show_one_card:
+            return str(self.hand[0])
+        else:
+            return Player.__str__(self)
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~BLACKJACK GAME PLAY~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+class Blackjack(object):
+
+    def __init__(self, num_players = 1):
+        self.deck = Deck()
+        self.deck.shuffle()
+
+        # create list of Player objects
+        self.num_players = num_players
+        self.player_list = []
+        for i in range(self.num_players):
+            player = Player([self.deck.deal(), self.deck.deal()])
+            self.player_list.append(player)
+
+        # create a Dealer object
+        self.dealer = Dealer([self.deck.deal(), self.deck.deal()])
+
+    def play(self):
+        # print the cards that each Player has
+        for i in range(self.num_players):
+            print('Player ' + str(i + 1) + ': ' + str(self.player_list[i]))
+
+        # print cards of the Dealer
+        print('Dealer: ' + str(self.dealer))
+
+        # each Player hits until stands or points is 21 and over
+        player_points = []
+        for i in range(self.num_players):
+            print()
+            while True:
+                if self.player_list[i].get_points() == 21:
+                    break
+                choice = input('Player ' + str(i + 1) + \
+                               ', do you want to hit? [y / n]: ')
+                if choice in ['y', 'Y']:
+                    self.player_list[i].hit(self.deck.deal())
+                    points = self.player_list[i].get_points()
+                    print('Player ' + str(i + 1) + ': ' +\
+                          str(self.player_list[i]))
+                    if points >= 21:
+                        break
+                else:
+                    break
+            player_points.append(self.player_list[i].get_points())
+
+        # Dealer's turn to hit/stand
+        self.dealer.hit(self.deck)
+        dealer_points = self.dealer.get_points()
+        print()
+        print('Dealer: ' + str(self.dealer))
+        print()
+
+        # determine outcome
+        # if Dealer and Player have blackjack, Player wins
+        # Dealer and Player same points results in a push
+        # both Dealer and Player busts, Player loses
+        for i in range(self.num_players):
+            if self.player_list[i].has_blackjack():
+                print('Player ' + str(i + 1) + ' wins')
+            elif player_points[i] > 21:
+                print('Player ' + str(i + 1) + ' loses')
+            elif dealer_points > 21:
+                print('Player ' + str(i + 1) + ' wins')
+            elif dealer_points > player_points[i]:
+                print('Player ' + str(i + 1) + ' loses')
+            elif dealer_points < player_points[i]:
+                print('Player ' + str(i + 1) + ' wins')
+            elif dealer_points == player_points[i]:
+                print('Player ' + str(i + 1) + ' ties')
+            else:
+                print('Player ' + str(i + 1) + ' wins')
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MAIN PROGRAM~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+def main():
+
+    num_players = int(input('Enter number of players: '))
+
+    while num_players < 1 or num_players > 6:
+        num_players = int(input('Enter number of players: '))
+
+    print()
+
+    # create Blackjack object
+    game = Blackjack(num_players)
+
+    # play game
+    game.play()
+
+main()
+</code><pre>
