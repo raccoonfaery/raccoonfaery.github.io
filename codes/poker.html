@@ -1,0 +1,383 @@
+---
+layout: default
+title: Poker
+---
+
+<h1>poker.py</h1>
+
+<h2>simulation of a poker card game</h2>
+
+<pre>
+import random
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CREATES A CARD~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+class Card(object):
+
+    RANKS = (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14)
+    SUITS = ("C", "D", "H", "S")
+
+    def __init__(self, rank = 12, suit = "S"):
+        if rank in Card.RANKS:
+            self.rank = rank
+        else:
+            self.rank = 12
+
+        if suit in Card.SUITS:
+            self.suit = suit
+        else:
+            self.suit = "S"
+
+    # string representation of Card object
+    def __str__(self):
+        if self.rank == 14:
+            rank = "A"
+        elif self.rank == 13:
+            rank = "K"
+        elif self.rank == 12:
+            rank = "Q"
+        elif self.rank == 11:
+            rank = "J"
+        else:
+            rank = str(self.rank)
+        return rank + self.suit
+
+    # equality tests
+
+    # equal to
+    def __eq__(self, other):
+        return self.rank == other.rank
+
+    # not equal to
+    def __ne__(self, other):
+        return self.rank != other.rank
+
+    # less than
+    def __lt__(self, other):
+        return self.rank < other.rank
+
+    # less than or equal to
+    def __le__(self, other):
+        return self.rank <= other.rank
+
+    # greater than
+    def __gt__(self, other):
+        return self.rank > other.rank
+
+    # greater than or equal to
+    def __ge__(self, other):
+        return self.rank >= other.rank
+
+"~~~~~~~~~~~~~~~~~~~~~CREATES A DECK W/ 52 CARD OBJECTS~~~~~~~~~~~~~~~~~~~~~~~~"
+class Deck(object):
+
+    def __init__(self, num_decks = 1):
+        self.deck = []
+
+        # creates 52 card objects to add to deck
+        for deck in range(num_decks):
+            for suit in Card.SUITS:
+                for rank in Card.RANKS:
+                    card = Card(rank,suit)
+                    self.deck.append(card)
+
+    # shuffle deck
+    def shuffle(self):
+        random.shuffle(self.deck)
+
+    # deal a card
+    def deal(self):
+        if len(self.deck) == 0:
+            return None
+        else:
+            return self.deck.pop(0)
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~SIMULATES POKER GAME~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+class Poker(object):
+
+    def __init__(self, num_players = 2, num_cards = 5):
+        self.deck = Deck()
+        self.deck.shuffle()
+        self.all_hands = [[] for person in range(num_players)]
+
+        # deal hands
+        for i in range(num_cards):
+            for player in range(num_players):
+                self.all_hands[player].append(self.deck.deal())
+
+    # simulates play of game
+    def play(self):
+        # sort hand of each player and print
+        for i in range(len(self.all_hands)):
+            sorted_hand = sorted(self.all_hands[i], reverse = True)
+            self.all_hands[i] = sorted_hand
+            hand_str = ""
+            for card in sorted_hand:
+                hand_str += (str(card) + " ")
+            print("Player %d : %s" %(i + 1,hand_str))
+        print()
+
+        # determine hand rank for each player and print
+        players_dict = {}
+        hand_points = []
+
+        for i in range(len(self.all_hands)):
+            if self.is_royal_flush(self.all_hands[i]) != 0:
+                points, rank = self.is_royal_flush(self.all_hands[i])
+            elif self.is_straight_flush(self.all_hands[i]) != 0:
+                points, rank = self.is_straight_flush(self.all_hands[i])
+            elif self.is_four_kind(self.all_hands[i]) != 0:
+                points, rank = self.is_four_kind(self.all_hands[i])
+            elif self.is_full_house(self.all_hands[i]) != 0:
+                points, rank = self.is_full_house(self.all_hands[i])
+            elif self.is_flush(self.all_hands[i]) != 0:
+                points, rank = self.is_flush(self.all_hands[i])
+            elif self.is_straight(self.all_hands[i]) != 0:
+                points, rank = self.is_straight(self.all_hands[i])
+            elif self.is_three_kind(self.all_hands[i]) != 0:
+                points, rank = self.is_three_kind(self.all_hands[i])
+            elif self.is_two_pair(self.all_hands[i]) != 0:
+                points, rank = self.is_two_pair(self.all_hands[i])
+            elif self.is_one_pair(self.all_hands[i]) != 0:
+                points, rank = self.is_one_pair(self.all_hands[i])
+            else:
+                points, rank = self.is_high_card(self.all_hands[i])
+
+            players_dict[i + 1] = [points, rank]
+            hand_points.append(points)
+
+            print("Player %d : %s" %(i + 1,rank))
+        print()
+
+        #determine winner and print
+        win = max(hand_points)
+        player = hand_points.index(win) + 1
+        win_rank = players_dict[player][1]
+
+        winners = []
+
+        for i in range(len(hand_points)):
+            for player, attributes in players_dict.items():
+                if attributes[1] == win_rank:
+                    if attributes[0] == max(hand_points):
+                        winners.append(player)
+                        hand_points.pop(hand_points.index(max(hand_points)))
+                        break
+
+        if len(winners) > 1:
+            for i in winners:
+                print("Player %d ties." %i)
+        else:
+            print("Player %d wins." %winners[0])
+
+    # determine rank of hand; returns number of points for that hand############
+
+    # determine if hand ROYAL FLUSH
+    def is_royal_flush(self, hand):
+        same_suit = True
+        hand = sorted(hand, reverse = True)
+
+        for i in range(len(hand) - 1):
+            same_suit = same_suit and (hand[i].suit == hand[i + 1].suit)
+
+        if not same_suit:
+            return 0
+
+        rank_order = True
+        for i in range(len(hand)):
+            rank_order = rank_order and (hand[i].rank == 14 - i)
+
+        if not rank_order:
+            return 0
+
+        points = 10 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Royal Flush"
+
+    # determine if hand STRAIGHT FLUSH
+    def is_straight_flush(self, hand):
+        same_suit = True
+        hand = sorted(hand, reverse = True)
+
+        for i in range(len(hand) - 1):
+            same_suit = same_suit and (hand[i].suit == hand[i + 1].suit)
+
+        if not same_suit:
+            return 0
+
+        rank_order = True
+
+        for i in range(1, len(hand)):
+            rank_order = rank_order and (hand[i].rank == hand[i - 1].rank - 1)
+
+        if not rank_order:
+            return 0
+
+        points = 9 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Straight Flush"
+
+    # determine if hand FOUR OF A KIND
+    def is_four_kind(self, hand):
+        four_kind = False
+        hand = sorted(hand, reverse = True)
+
+        if hand[0].rank == hand[1].rank == hand[2].rank == hand[3].rank:
+            four_kind = True
+        elif hand[1].rank == hand[2].rank == hand[3].rank == hand[4].rank:
+            hand.append(hand.pop(0))
+            four_kind = True
+
+        if not four_kind:
+            return 0
+
+        points = 8 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Four of a Kind"
+
+    # determine if hand FULL HOUSE
+    def is_full_house(self, hand):
+        full_house = False
+        hand = sorted(hand, reverse = True)
+
+        if hand[0].rank == hand[1].rank and\
+           hand[2].rank == hand[3].rank == hand[4].rank:
+            hand.extend([hand.pop(0), hand.pop(0)])
+            full_house = True
+        elif hand[0].rank == hand[1].rank == hand[2].rank and\
+             hand[3].rank == hand[4].rank:
+            full_house = True
+
+        if not full_house:
+            return 0
+
+        points = 7 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Full House"
+
+    # determine if hand FLUSH
+    def is_flush(self, hand):
+        same_suit = True
+        hand = sorted(hand, reverse = True)
+
+        for i in range(len(hand) - 1):
+            same_suit = same_suit and (hand[i].suit == hand[i + 1].suit)
+
+        if not same_suit:
+            return 0
+
+        points = 6 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Flush"
+
+    # determine if hand STRAIGHT
+    def is_straight(self, hand):
+        rank_order = True
+        hand = sorted(hand, reverse = True)
+
+        for i in range(1, len(hand)):
+            rank_order = rank_order and (hand[i].rank == hand[i - 1].rank - 1)
+
+        if not rank_order:
+            return 0
+
+        points = 5 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Straight"
+
+    # determine if hand THREE OF A KIND
+    def is_three_kind(self, hand):
+        three_kind = False
+        hand = sorted(hand, reverse = True)
+
+
+        if hand[0].rank == hand[1].rank == hand[2].rank:
+            three_kind = True
+        elif hand[1].rank == hand[2].rank == hand[3].rank:
+            hand.extend([hand.pop(0), hand.pop(3)])
+            three_kind = True
+        elif hand[2].rank == hand[3].rank == hand[4].rank:
+            hand.extend([hand.pop(0), hand.pop(0)])
+            three_kind = True
+
+        if not three_kind:
+            return 0
+
+        points = 4 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Three of a Kind"
+
+    # determine if hand TWO PAIR
+    def is_two_pair(self, hand):
+        two_pair = False
+        hand = sorted(hand, reverse = True)
+
+        if hand[0].rank != hand[1].rank:
+            if hand[1].rank == hand[2].rank:
+                if hand[3].rank == hand[4].rank:
+                    hand.append(hand.pop(0))
+                    two_pair = True
+        elif hand[0].rank == hand[1].rank:
+            if hand[2].rank == hand[3].rank:
+                two_pair = True
+
+        if not two_pair:
+            return 0
+
+        points = 3 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "Two Pair"
+
+    # determine if hand ONE PAIR
+    def is_one_pair(self, hand):
+        one_pair = False
+        hand = sorted(hand, reverse = True)
+        new_hand = []
+
+        for i in range(len(hand) - 1):
+            if hand[i].rank == hand[i + 1].rank:
+                new_hand.extend([hand.pop(i), hand.pop(i)])
+                new_hand.extend([hand[0], hand[1], hand[2]])
+                hand = new_hand
+                one_pair = True
+                break
+
+        if not one_pair:
+            return 0
+
+        points = 2 * 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "One Pair"
+
+    # HIGH CARD ; if not anything else
+    def is_high_card(self, hand):
+        hand = sorted(hand, reverse = True)
+
+        points = 15**5 + hand[0].rank * 15**4 + hand[1].rank * 15**3\
+                 + hand[2].rank * 15**2 + hand[3].rank * 15 + hand[4].rank
+
+        return points, "High Card"
+
+"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~MAIN PROGRAM~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+def main():
+
+    num_players = int(input("Enter number of players: "))
+
+    while (num_players < 2) or (num_players > 6):
+        num_players = int(input("Enter number of players: "))
+
+    print()
+    game = Poker(num_players)
+
+    game.play()
+
+main()
+</pre>
