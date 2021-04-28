@@ -1,0 +1,23 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+::-webkit-scrollbar {
+  width: 30px;
+  height: 30px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b5e853;
+  border-radius: 30px;
+}
+
+* {
+  scrollbar-width: 30px;
+  scrollbar-color: rgba(0, 0, 0, 0.9) #b5e853;
+}
