@@ -4,9 +4,8 @@
 @import "{{ site.theme }}";
 
 ::-webkit-scrollbar {
-  width: 14px;
-  height: 14px;
-  padding: 2px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -35,7 +34,7 @@ code.block-rouge {
   padding: 10px;
   margin: 1em 0;
   font-size: 16px;
-  color: #aa759f;
+  color: #f471b5;
   border-radius: 2px;
   overflow: auto;
   overflow-y: hidden;
