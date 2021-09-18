@@ -4,8 +4,9 @@
 @import "{{ site.theme }}";
 
 ::-webkit-scrollbar {
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
+  padding: 2px;
 }
 
 ::-webkit-scrollbar-track {
@@ -14,11 +15,11 @@
 
 ::-webkit-scrollbar-thumb {
   background: #b5e853;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 * {
-  scrollbar-width: 20px;
+  scrollbar-width: 10px;
   scrollbar-color: rgba(0, 0, 0, 0.9) #b5e853;
 }
 
