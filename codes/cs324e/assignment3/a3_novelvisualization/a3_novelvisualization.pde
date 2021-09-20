@@ -13,6 +13,7 @@ void setup() {
   size(700,600);
   buffied = createFont("buffied.TTF",200);
   words = loadStrings("uniquewords.txt");
+  noLoop(); // only happens once
 }
 
 void draw() {
@@ -22,7 +23,6 @@ void draw() {
   while (finished == false) {
     addToScreen();
   }
-  noLoop(); // only happens once
 }
 
 // function to retieve and delete random word from array of unique words
