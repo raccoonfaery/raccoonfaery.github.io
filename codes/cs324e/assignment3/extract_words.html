@@ -38,8 +38,9 @@ def extract():
             wordfrequency[uniquewords.index(wrd)] += 1
          all_words.write(wrd + "\n")
    
-   for wrd in uniquewords:
-      unique_words.write(wrd + "\n")
+   for i in range(len(uniquewords)):
+      if wordfrequency[i] == 1:
+         unique_words.write(uniquewords[i] + "\n")
    for wrd in wordfrequency:
       word_frequency.write(str(wrd) + "\n")
 
